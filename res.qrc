@@ -6,5 +6,6 @@
         <file>icons/updown.png</file>
         <file>icons/upLimit.png</file>
         <file>icons/downLimit.png</file>
+        <file>icons/refresh.png</file>
     </qresource>
 </RCC>

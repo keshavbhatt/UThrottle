@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>472</width>
-    <height>473</height>
+    <height>476</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="icon">
@@ -100,7 +100,7 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_3"/>
+              <widget class="QLineEdit" name="downloadlimit"/>
              </item>
              <item>
               <widget class="QLabel" name="label_5">
@@ -288,7 +288,7 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_11"/>
+              <widget class="QLineEdit" name="uploadlimit"/>
              </item>
              <item>
               <widget class="QLabel" name="label_21">
@@ -448,9 +448,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_2">
+         <widget class="QLineEdit" name="interfaceTitle">
           <property name="text">
-           <string>Edge</string>
+           <string/>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -462,7 +462,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLabel" name="label_3">
+         <widget class="QLabel" name="intrefaceLable">
           <property name="text">
            <string>Interface:</string>
           </property>
@@ -485,38 +485,30 @@
          </spacer>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox">
+         <widget class="QComboBox" name="interfaceCombo">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <item>
-           <property name="text">
-            <string>lo</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>ppp0</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>eth0</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>usb0</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>wlan0</string>
-           </property>
-          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="refreshInterfaceBtn">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="res.qrc">
+            <normaloff>:/icons/refresh.png</normaloff>:/icons/refresh.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
          </widget>
         </item>
         <item>
@@ -553,7 +545,7 @@
          <number>0</number>
         </property>
         <item row="2" column="0">
-         <widget class="QFrame" name="">
+         <widget class="QFrame" name="frame">
           <property name="frameShape">
            <enum>QFrame::NoFrame</enum>
           </property>
