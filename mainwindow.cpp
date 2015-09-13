@@ -26,6 +26,12 @@ MainWindow::MainWindow(QWidget *parent) :
     this->move(QApplication::desktop()->screen()->rect().center() - this->rect().center()); // moving to center of desktop
     //populating interfaceCombobox
     refreshinterfaceCombo();
+    //enable or disable buttons descision
+    enabledisableButtons();
+    //disable the downlink and uplink frames , we are enabling them when user enable limits by checkboxs
+    ui->uplinkFrame->setEnabled(false); ui->downlinkFrame->setEnabled(false);
+    //disable stop button at startup
+    ui->stopThrottleBtn->setEnabled(false);
 }
 
 //on app exit
@@ -122,24 +128,179 @@ QString MainWindow::inputstring() {
 void MainWindow::on_treeWidget_clicked(const QModelIndex &index)
 {
     ui->interfaceTitle->setText(inputstring());
-    if(ui->interfaceTitle->text()=="56K"){
+    if(ui->interfaceTitle->text()=="25K"){
+       ui->downloadlimit->setReadOnly(true);
+       ui->uploadlimit->setReadOnly(true);
+       ui->downloadlimit->setText("25");
+       ui->uploadlimit->setText("25");
+        }
+    else if(ui->interfaceTitle->text()=="56K"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("56");
         ui->uploadlimit->setText("56");
     }
+    else if(ui->interfaceTitle->text()=="80K"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->uploadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("80");
+        ui->uploadlimit->setText("80");
+    }
+    else if(ui->interfaceTitle->text()=="100K"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->uploadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("100");
+        ui->uploadlimit->setText("100");
+    }
+    else if(ui->interfaceTitle->text()=="120K"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->uploadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("120");
+        ui->uploadlimit->setText("120");
+    }
+    else if(ui->interfaceTitle->text()=="150K"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->uploadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("150");
+        ui->uploadlimit->setText("150");
+    }
+    else if(ui->interfaceTitle->text()=="200K"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->uploadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("200");
+        ui->uploadlimit->setText("200");
+    }
     else if(ui->interfaceTitle->text()=="Edge"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("250");
         ui->uploadlimit->setText("250");
     }
     else if(ui->interfaceTitle->text()=="3G"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("750");
         ui->uploadlimit->setText("750");
     }
     else if(ui->interfaceTitle->text()=="LTE / 4G"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("1024");
         ui->uploadlimit->setText("1024");
     }
     else if(ui->interfaceTitle->text()=="DSL"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("2024");
         ui->uploadlimit->setText("2024");
     }
+    else if(ui->interfaceTitle->text()=="Custom"){
+        //seting int validiator
+        ui->downloadlimit->setValidator( new QIntValidator(0, 1000000, this) );
+        ui->uploadlimit->setValidator( new QIntValidator(0, 1000000, this) );
+        //readonly false allow user input custom values
+        ui->downloadlimit->setReadOnly(false);
+        ui->uploadlimit->setReadOnly(false);
+        //setting value to blank
+        ui->downloadlimit->setText("");
+        ui->uploadlimit->setText("");
+    }
+    //enable or disable buttons descision
+    enabledisableButtons();
+
+}
+
+//to enable/disble buttons
+void MainWindow::enabledisableButtons(){
+
+    //when no preset is selected and no checkbox is checked
+    if(((ui->interfaceTitle->text().count()==0) && ((ui->limitDownloadCheckBox->checkState()== Qt::Unchecked)||(ui->limitUploadCheckBox->checkState()== Qt::Unchecked)))&&((ui->downloadlimit->text().count()<1)||(ui->uploadlimit->text().count()<1))){
+        //disable all buttons
+        ui->startThrottleBtn->setEnabled(false);
+      //  ui->stopThrottleBtn->setEnabled(false);
+    }
+    //when preset is selected and one of checkbox is checked
+    else if(((ui->interfaceTitle->text().count()>0) &&((ui->limitDownloadCheckBox->checkState()==Qt::Checked)||(ui->limitUploadCheckBox->checkState()==Qt::Checked)))&&((ui->downloadlimit->text().count()>0)||(ui->uploadlimit->text().count()>0))) {
+        //enable buttons
+        ui->startThrottleBtn->setEnabled(true); // qDebug()<<"da,m";
+      //  ui->stopThrottleBtn->setEnabled(true);
+
+    }
+    //when both the checkbox are unchecked
+    else if((ui->limitDownloadCheckBox->checkState()==Qt::Unchecked)&&(ui->limitUploadCheckBox->checkState()==Qt::Unchecked)){
+        //disable all buttons
+        ui->startThrottleBtn->setEnabled(false);
+      //  ui->stopThrottleBtn->setEnabled(false);
+    }
+
+}
+
+//when checkbox states changed-----------------------------------/* */
+void MainWindow::on_limitDownloadCheckBox_stateChanged(int arg1) /* */
+{                                                                /* */
+    if(arg1==2){ui->downlinkFrame->setEnabled(true);}            /* */
+    else if(arg1==0){ui->downlinkFrame->setEnabled(false);}      /* */
+    enabledisableButtons();                                      /* */
+                                                                 /* */
+}                                                                /* */
+                                                                 /* */
+void MainWindow::on_limitUploadCheckBox_stateChanged(int arg1)   /* */
+{                                                                /* */
+    if(arg1==2){ui->uplinkFrame->setEnabled(true);}              /* */
+    else if(arg1==0){ui->uplinkFrame->setEnabled(false);}        /* */
+    enabledisableButtons();                                      /* */
+                                                                 /* */
+}                                                                /* */
+//when checkbox states changed-----------------------------------/* */
+
+
+// Start/Stop clicked
+void MainWindow::on_startThrottleBtn_clicked()
+{
+    //start app engine
+    startThrottler();
+    //disable the modifiers
+    disableGUI();
+}
+void MainWindow::on_stopThrottleBtn_clicked()
+{
+    //stop app engine
+    enableGUI();
+}
+
+//on custom preset download/Uplimit text chnaged--------------------/* */
+void MainWindow::on_downloadlimit_textChanged(const QString &arg1)  /* */
+{                                                                   /* */
+       enabledisableButtons();                                      /* */
+       if(arg1.count()<1){                                          /* */
+           ui->startThrottleBtn->setEnabled(false);                 /* */
+       }                                                            /* */
+}                                                                   /* */
+void MainWindow::on_uploadlimit_textChanged(const QString &arg1)    /* */
+{                                                                   /* */
+    enabledisableButtons();                                         /* */
+    if(arg1.count()<1){                                             /* */
+        ui->startThrottleBtn->setEnabled(false);                    /* */
+    }                                                               /* */
+}                                                                   /* */
+//------------------------------------------------------------------/* */
+
+
+void MainWindow::disableGUI(){
+    ui->mainFrame->setEnabled(false);
+    ui->treeWidget->setEnabled(false);
+    ui->tabWidget->setEnabled(false);
+    ui->startThrottleBtn->setEnabled(false);
+}
+void MainWindow::enableGUI(){
+    ui->mainFrame->setEnabled(true);
+    ui->treeWidget->setEnabled(true);
+    ui->tabWidget->setEnabled(true);
+    ui->startThrottleBtn->setEnabled(true);
+}
+
+
+//core processes
+void MainWindow::startThrottler(){
+
 }

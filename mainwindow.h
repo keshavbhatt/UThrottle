@@ -30,6 +30,26 @@ private slots:
 
     void on_treeWidget_clicked(const QModelIndex &index);
 
+    void enabledisableButtons();
+
+    void on_limitDownloadCheckBox_stateChanged(int arg1);
+
+    void on_limitUploadCheckBox_stateChanged(int arg1);
+
+    void on_startThrottleBtn_clicked();
+
+    void on_stopThrottleBtn_clicked();
+
+    void on_downloadlimit_textChanged(const QString &arg1);
+
+    void on_uploadlimit_textChanged(const QString &arg1);
+
+    void enableGUI();
+
+    void disableGUI();
+
+    void startThrottler();
+
 private:
     Ui::MainWindow *ui;
     QProcess *interfaceInfo;
