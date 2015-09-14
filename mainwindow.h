@@ -5,6 +5,10 @@
 #include <QProcess>
 #include <qdebug.h>
 #include <QModelIndex>  //when treewidget item changed
+//tray
+#include <QSystemTrayIcon>
+
+
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +21,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void setVisible(bool visible);
     QString inputstring();
 
 private slots:
@@ -49,10 +54,44 @@ private slots:
     void disableGUI();
 
     void startThrottler();
+    void stopThrottler();
+   // void printOutput();
+    void printOutputInTerminal1();
+
+    void on_check();
+
+    void on_interfaceCombo_currentIndexChanged(int index);
+
+    void on_showterminal_clicked(bool checked);
+
+    void on_actionRuninBackground_triggered();
+
+
+
+protected:
+    //tray
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::MainWindow *ui;
     QProcess *interfaceInfo;
+    //tray
+    void createActions();
+    void createTrayIcon();
+    QAction *minimizeAction;
+    QAction *runinbackground;
+//  QAction *maximizeAction;
+    QAction *restoreAction;
+    QAction *quitAction;
+    QSystemTrayIcon *trayIcon;
+    QMenu *trayIconMenu;
+
+    //main Process
+    QProcess *throttler;
+    QProcess *stopthrottler;
+    QProcess *status;
+
+
 };
 
 #endif // MAINWINDOW_H

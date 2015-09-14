@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>503</width>
-    <height>531</height>
+    <width>558</width>
+    <height>535</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,6 +32,9 @@
       </property>
       <item>
        <widget class="QTreeWidget" name="treeWidget">
+        <property name="toolTip">
+         <string>select from presets or choose custom preset</string>
+        </property>
         <property name="verticalScrollBarPolicy">
          <enum>Qt::ScrollBarAlwaysOff</enum>
         </property>
@@ -160,7 +163,132 @@
       </item>
      </layout>
     </item>
-    <item row="11" column="0" colspan="2">
+    <item row="1" column="1">
+     <widget class="QFrame" name="mainFrame">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="leftMargin">
+        <number>1</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Label:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>29</width>
+             <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="interfaceTitle">
+           <property name="toolTip">
+            <string>current preset</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="intrefaceLable">
+           <property name="text">
+            <string>Interface:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>7</width>
+             <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QComboBox" name="interfaceCombo">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
+            <string>interface available</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="refreshInterfaceBtn">
+           <property name="toolTip">
+            <string>Refresh interface list</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="res.qrc">
+             <normaloff>:/icons/refresh.png</normaloff>:/icons/refresh.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>15</width>
+             <height>15</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_16">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="12" column="0" colspan="2">
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <property name="topMargin">
        <number>0</number>
@@ -178,53 +306,6 @@
           <property name="spacing">
            <number>0</number>
           </property>
-          <item row="3" column="0">
-           <widget class="QFrame" name="frame">
-            <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_9">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>1</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;After Closing this Window, Uthrottle will be run in background .&lt;/p&gt;&lt;p&gt;To evoke this GUI click on tray icon. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_12">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;img height=&quot;100&quot; width=&quot;100&quot; src=&quot;:/icons/icon.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
           <item row="1" column="0">
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <property name="leftMargin">
@@ -234,9 +315,43 @@
              <number>0</number>
             </property>
             <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="toolTip">
+               <string>log of what you did in past</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">height:30px;
+
+</string>
+              </property>
+              <property name="text">
+               <string>Log</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="showterminal">
+              <property name="toolTip">
+               <string>show hide terminal</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">height:30px;</string>
+              </property>
+              <property name="text">
+               <string>Show Terminal</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="stopThrottleBtn">
               <property name="enabled">
                <bool>true</bool>
+              </property>
+              <property name="toolTip">
+               <string>stop throttling n current interface</string>
               </property>
               <property name="styleSheet">
                <string notr="true">height:30px;
@@ -250,6 +365,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="startThrottleBtn">
+              <property name="toolTip">
+               <string>start throtteling on current interface</string>
+              </property>
               <property name="styleSheet">
                <string notr="true">height:30px;
 
@@ -269,8 +387,100 @@
       </item>
      </layout>
     </item>
+    <item row="13" column="0" colspan="2">
+     <widget class="QFrame" name="terminalFrame">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPlainTextEdit" name="terminal1">
+         <property name="toolTip">
+          <string>interface status</string>
+         </property>
+         <property name="undoRedoEnabled">
+          <bool>false</bool>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="14" column="0" colspan="2">
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <property name="leftMargin">
+        <number>1</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item row="0" column="2">
+        <widget class="QLabel" name="statusIcon">
+         <property name="toolTip">
+          <string>status icon</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <spacer name="horizontalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="interfaceStatusLable">
+         <property name="toolTip">
+          <string>interface status</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font-size:12pt; 
+color:#4c4c4c;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
     <item row="2" column="1">
      <widget class="QTabWidget" name="tabWidget">
+      <property name="toolTip">
+       <string/>
+      </property>
       <property name="tabPosition">
        <enum>QTabWidget::North</enum>
       </property>
@@ -278,7 +488,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="icon">
@@ -291,6 +501,9 @@
        <layout class="QVBoxLayout" name="verticalLayout_12">
         <item>
          <widget class="QCheckBox" name="limitDownloadCheckBox">
+          <property name="toolTip">
+           <string>check if you want limiton downlink</string>
+          </property>
           <property name="text">
            <string>Limit download connection</string>
           </property>
@@ -341,7 +554,11 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLineEdit" name="downloadlimit"/>
+              <widget class="QLineEdit" name="downloadlimit">
+               <property name="toolTip">
+                <string>bandwidth in kilbytes</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_41">
@@ -378,7 +595,14 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_16"/>
+              <widget class="QLineEdit" name="lineEdit_16">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>auto</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_43">
@@ -415,7 +639,14 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_17"/>
+              <widget class="QLineEdit" name="lineEdit_17">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>auto</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_45">
@@ -452,7 +683,14 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_18"/>
+              <widget class="QLineEdit" name="lineEdit_18">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>all ports</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_47">
@@ -479,6 +717,9 @@
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <widget class="QCheckBox" name="limitUploadCheckBox">
+          <property name="toolTip">
+           <string>check if you want limit uplink</string>
+          </property>
           <property name="text">
            <string>Limit Uplink connection</string>
           </property>
@@ -529,7 +770,11 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLineEdit" name="uploadlimit"/>
+              <widget class="QLineEdit" name="uploadlimit">
+               <property name="toolTip">
+                <string>bandwidth in kilobytes</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_21">
@@ -566,7 +811,14 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_14"/>
+              <widget class="QLineEdit" name="lineEdit_14">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>auto</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_27">
@@ -603,7 +855,14 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_12"/>
+              <widget class="QLineEdit" name="lineEdit_12">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>auto</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_23">
@@ -640,7 +899,14 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_13"/>
+              <widget class="QLineEdit" name="lineEdit_13">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>all ports</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_25">
@@ -658,172 +924,6 @@
       </widget>
      </widget>
     </item>
-    <item row="12" column="0" colspan="2">
-     <widget class="QFrame" name="horizontalFrame">
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(214, 210, 208);
-padding:2px;
-</string>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_22">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="label_37">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#4c4c4c;&quot;&gt;Status :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_38">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#4c4c4c;&quot;&gt;Active&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_39">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#4c4c4c;&quot;&gt;Edge&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QFrame" name="mainFrame">
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <property name="leftMargin">
-        <number>1</number>
-       </property>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Label:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>29</width>
-             <height>0</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="interfaceTitle">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QLabel" name="intrefaceLable">
-           <property name="text">
-            <string>Interface:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>7</width>
-             <height>0</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QComboBox" name="interfaceCombo">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="refreshInterfaceBtn">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="res.qrc">
-             <normaloff>:/icons/refresh.png</normaloff>:/icons/refresh.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>15</width>
-             <height>15</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_16">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>0</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -831,7 +931,7 @@ padding:2px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>503</width>
+     <width>558</width>
      <height>23</height>
     </rect>
    </property>
@@ -839,25 +939,16 @@ padding:2px;
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionStop"/>
+    <addaction name="actionRuninBackground"/>
     <addaction name="actionQuit"/>
-   </widget>
-   <widget class="QMenu" name="menuEdit">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-    <addaction name="actionPreferances"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionDoante"/>
-    <addaction name="actionWebsite"/>
     <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuEdit"/>
    <addaction name="menuHelp"/>
   </widget>
   <action name="actionQuit">
@@ -876,14 +967,6 @@ padding:2px;
     <string>Ctrl+P</string>
    </property>
   </action>
-  <action name="actionDoante">
-   <property name="text">
-    <string>Doante</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+D</string>
-   </property>
-  </action>
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
@@ -892,20 +975,12 @@ padding:2px;
     <string>Ctrl+A</string>
    </property>
   </action>
-  <action name="actionWebsite">
+  <action name="actionRuninBackground">
    <property name="text">
-    <string>Website</string>
+    <string>Run in background</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+W</string>
-   </property>
-  </action>
-  <action name="actionStop">
-   <property name="text">
-    <string>Stop All</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
+    <string>Ctrl+K</string>
    </property>
   </action>
  </widget>

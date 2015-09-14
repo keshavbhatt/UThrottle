@@ -15,7 +15,9 @@
 #include <QAbstractItemModel>
 #include <QDesktopServices>
 #include <QComboBox>
-
+//for tray icon and app handling via tray
+#include <QSystemTrayIcon>
+#include <QMessageBox>
 
 //setting ui
 MainWindow::MainWindow(QWidget *parent) :
@@ -23,15 +25,27 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+//    setMaximumWidth(540);
+//    setMaximumHeight(520);
+//    setMinimumWidth(540);
+//    setMinimumHeight(520);
     this->move(QApplication::desktop()->screen()->rect().center() - this->rect().center()); // moving to center of desktop
+    //create tray icon
+    createActions();
+    createTrayIcon();
+    trayIcon->show();
+
     //populating interfaceCombobox
     refreshinterfaceCombo();
     //enable or disable buttons descision
     enabledisableButtons();
     //disable the downlink and uplink frames , we are enabling them when user enable limits by checkboxs
     ui->uplinkFrame->setEnabled(false); ui->downlinkFrame->setEnabled(false);
-    //disable stop button at startup
-    ui->stopThrottleBtn->setEnabled(false);
+    //check current status
+    on_check();
+    //show terminal and seting checked
+    ui->terminalFrame->show(); ui->showterminal->setChecked(true);
 }
 
 //on app exit
@@ -43,7 +57,23 @@ MainWindow::~MainWindow()
 //quit app with action
 void MainWindow::on_actionQuit_triggered()
 {
-   qApp->quit();
+   stopThrottler();
+   stopthrottler->waitForFinished();//wait otherwise stopThrottler will not open gksudo
+
+   QString quitout;
+   quitout= stopthrottler->readAll();
+   if(quitout.count()==0){
+    qDebug()<<"Please Enter sudo password to Stop Throttling" <<ui->interfaceCombo->currentText()<< "and Quit App.";
+   }
+   else{
+     qDebug()<<"Throttling on Selected Interface Stopped ! , while other interfaces may be throttled by Uthrottle in background.";
+     throttler->kill();
+     stopthrottler->kill();
+     status->kill();
+     qApp->quit();
+   }
+
+
 }
 
 //about action/dialog
@@ -65,7 +95,6 @@ void MainWindow::refreshinterfaceCombo()  // we will grep output via bash script
     interfaceInfo->start(program);
     interfaceInfo->waitForBytesWritten();
     interfaceInfo->waitForFinished();
-    //  QObject::connect(interfaceInfo, SIGNAL(finished(int)), this, SLOT(populateCombo()));
     qDebug() << "running" << program;
     //qDebug() << interfaceInfo->readAllStandardOutput() ;  // please comment this if uncommented data will not get written into the file below
 
@@ -124,7 +153,7 @@ QString MainWindow::inputstring() {
     return stringlist;
 }
 
-//to change the data according to selected item in treeWidget
+//to change the data according to selected item/preset in treeWidget
 void MainWindow::on_treeWidget_clicked(const QModelIndex &index)
 {
     ui->interfaceTitle->setText(inputstring());
@@ -217,20 +246,19 @@ void MainWindow::enabledisableButtons(){
     if(((ui->interfaceTitle->text().count()==0) && ((ui->limitDownloadCheckBox->checkState()== Qt::Unchecked)||(ui->limitUploadCheckBox->checkState()== Qt::Unchecked)))&&((ui->downloadlimit->text().count()<1)||(ui->uploadlimit->text().count()<1))){
         //disable all buttons
         ui->startThrottleBtn->setEnabled(false);
-      //  ui->stopThrottleBtn->setEnabled(false);
+
     }
     //when preset is selected and one of checkbox is checked
     else if(((ui->interfaceTitle->text().count()>0) &&((ui->limitDownloadCheckBox->checkState()==Qt::Checked)||(ui->limitUploadCheckBox->checkState()==Qt::Checked)))&&((ui->downloadlimit->text().count()>0)||(ui->uploadlimit->text().count()>0))) {
         //enable buttons
         ui->startThrottleBtn->setEnabled(true); // qDebug()<<"da,m";
-      //  ui->stopThrottleBtn->setEnabled(true);
 
     }
     //when both the checkbox are unchecked
     else if((ui->limitDownloadCheckBox->checkState()==Qt::Unchecked)&&(ui->limitUploadCheckBox->checkState()==Qt::Unchecked)){
         //disable all buttons
         ui->startThrottleBtn->setEnabled(false);
-      //  ui->stopThrottleBtn->setEnabled(false);
+
     }
 
 }
@@ -259,13 +287,14 @@ void MainWindow::on_startThrottleBtn_clicked()
 {
     //start app engine
     startThrottler();
-    //disable the modifiers
-    disableGUI();
+
 }
 void MainWindow::on_stopThrottleBtn_clicked()
 {
     //stop app engine
-    enableGUI();
+    stopThrottler();
+
+
 }
 
 //on custom preset download/Uplimit text chnaged--------------------/* */
@@ -287,20 +316,164 @@ void MainWindow::on_uploadlimit_textChanged(const QString &arg1)    /* */
 
 
 void MainWindow::disableGUI(){
-    ui->mainFrame->setEnabled(false);
+   // ui->mainFrame->setEnabled(false);
     ui->treeWidget->setEnabled(false);
     ui->tabWidget->setEnabled(false);
-    ui->startThrottleBtn->setEnabled(false);
+
+  //  ui->startThrottleBtn->setEnabled(false);
 }
 void MainWindow::enableGUI(){
     ui->mainFrame->setEnabled(true);
     ui->treeWidget->setEnabled(true);
     ui->tabWidget->setEnabled(true);
-    ui->startThrottleBtn->setEnabled(true);
+   // ui->startThrottleBtn->setEnabled(true);
 }
 
 
 //core processes
 void MainWindow::startThrottler(){
+    QString mainprog = "gksudo";
+    QStringList arguments;
+    arguments << "wondershaper" << ui->interfaceCombo->currentText() << ui->downloadlimit->text() << ui->uploadlimit->text();
+    throttler = new QProcess(this);
+    throttler->start(mainprog, arguments);
+//    QObject::connect(throttler,SIGNAL(readyReadStandardOutput()),this,SLOT(printOutput()));
+    QObject::connect(throttler,SIGNAL(finished(int)),this,SLOT(on_check()));
+//    ui->stopThrottleBtn->setEnabled(true);
+//    ui->startThrottleBtn->setEnabled(false);
+}
+
+void MainWindow::stopThrottler(){
+    QString mainprog = "gksudo";
+    QStringList arguments;
+    arguments << "wondershaper" << "clear" << ui->interfaceCombo->currentText();
+    stopthrottler = new QProcess(this);
+    stopthrottler->start(mainprog, arguments);
+    QObject::connect(stopthrottler,SIGNAL(finished(int)),this,SLOT(on_check()));
+
+    qDebug()<<"Stopping"<<ui->interfaceCombo->currentText();
 
 }
+
+//check button cliked -//TODO check every interface one by one and print which is being throttled
+void MainWindow::on_check()
+{
+QString mainprog = "wondershaper";
+QStringList arguments;
+arguments << ui->interfaceCombo->currentText();
+status = new QProcess(this);
+status->start(mainprog, arguments);
+QObject::connect(status ,SIGNAL(readyReadStandardOutput()),this,SLOT(printOutputInTerminal1()));
+}
+
+
+//print status in terminal1
+void MainWindow::printOutputInTerminal1(){
+    ui->terminal1->clear();
+    QString output;
+    output = status->readAll();
+    ui->terminal1->appendPlainText(output);
+    //qDebug()<<output ;
+    if(output.contains("avgidle")){
+        ui->interfaceStatusLable->setText("Throttling currnet interface");
+        if(ui->interfaceStatusLable->text()=="Throttling currnet interface"){
+            ui->stopThrottleBtn->setEnabled(true);
+            ui->startThrottleBtn->setEnabled(false);
+            ui->statusIcon->setPixmap(QPixmap(":/icons/icon2.png"));
+            //disable the modifiers for other interfaces only disable for interface which is being throttled
+            disableGUI();
+        }
+    }
+    else{
+        ui->interfaceStatusLable->setText("Not Throttling currnet interface");
+        ui->stopThrottleBtn->setEnabled(false);
+        ui->statusIcon->setPixmap(QPixmap(":/icons/icon1.png"));
+        //enable the modifiers
+        enableGUI();
+
+    }
+}
+
+//printoutput() when sta
+//void MainWindow::printOutput(){
+//    QString line(stopthrottler->readAllStandardOutput() );
+//    ui->statusBar->showMessage(line);
+//   //on_check();
+//   //  qDebug()<<throttler;
+//}
+
+
+
+//Start tray shits here
+void MainWindow::setVisible(bool visible){
+    minimizeAction->setEnabled(visible);
+//  maximizeAction->setEnabled(!isMaximized());
+    restoreAction->setEnabled(isMaximized() || !visible);
+    QMainWindow::setVisible(visible);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (trayIcon->isVisible()) {
+        QMessageBox::information(this, tr("UThrottle going to systray"),
+                                 tr("UThrottle will keep running in the "
+                                    "system tray"));
+        hide();
+        event->ignore();
+    }
+}
+
+void MainWindow::createActions()
+{
+    minimizeAction = new QAction(tr("Mi&nimize to tray"), this);
+    connect(minimizeAction, SIGNAL(triggered()), this, SLOT(hide()));
+
+//    maximizeAction = new QAction(tr("Ma&ximize"), this);
+//    connect(maximizeAction, SIGNAL(triggered()), this, SLOT(showMaximized()));
+
+    runinbackground = new QAction(tr("Run in background"),this);
+    connect(runinbackground,SIGNAL(triggered()), this ,SLOT(on_actionRuninBackground_triggered()));
+
+    restoreAction = new QAction(tr("&Restore"), this);
+    connect(restoreAction, SIGNAL(triggered()), this, SLOT(showNormal()));
+
+    quitAction = new QAction(tr("&Quit"), this);
+    connect(quitAction, SIGNAL(triggered()), this, SLOT(on_actionQuit_triggered()));
+}
+
+void MainWindow::createTrayIcon()
+{   //make menu
+    trayIconMenu = new QMenu(this);
+    //add actions to menu
+    trayIconMenu->addAction(minimizeAction);
+    trayIconMenu->addAction(runinbackground);
+//  trayIconMenu->addAction(maximizeAction);
+    trayIconMenu->addAction(restoreAction);
+    trayIconMenu->addSeparator();
+    trayIconMenu->addAction(quitAction);
+//  initialize tray
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setContextMenu(trayIconMenu);
+    trayIcon->setIcon(QIcon(":/icons/tray.svg"));
+}
+//End tray shits
+
+
+//check the status of throttling when interface changed
+void MainWindow::on_interfaceCombo_currentIndexChanged(int index)
+{
+    on_check();
+}
+
+void MainWindow::on_showterminal_clicked(bool checked)
+{
+if(checked){ui->terminalFrame->show();}
+else if(!checked){ui->terminalFrame->hide();}
+}
+//runinbackground
+void MainWindow::on_actionRuninBackground_triggered()
+{
+    qApp->quit();
+}
+
+

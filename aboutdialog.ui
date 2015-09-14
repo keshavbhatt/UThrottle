@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>447</width>
-    <height>274</height>
+    <width>477</width>
+    <height>280</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -62,9 +62,12 @@
           <number>1</number>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt; font-weight:600; color:#636363;&quot;&gt;UThrottle&lt;/span&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; color:#636363; vertical-align:super;&quot;&gt;®&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#636363;&quot;&gt;1.0&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#636363;&quot;&gt;Throttle tool for Ubuntu&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#636363;&quot;&gt;canonical - 1.0&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#636363;&quot;&gt;Desgined by Keshav Bhatt&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt; font-weight:600; color:#636363;&quot;&gt;UThrottle&lt;/span&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; color:#636363; vertical-align:super;&quot;&gt;®&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#636363;&quot;&gt;1.0&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#636363;&quot;&gt;Throttle tool for Ubuntu&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#636363;&quot;&gt;canonical - 1.0&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#636363;&quot;&gt;Desgined &amp;amp; Developed by &lt;/span&gt;&lt;a href=&quot;https://facebook.com/keshav.bhatt.393&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#636363;&quot;&gt;Keshav Bhatt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://facebook.com/keshav.bhatt.393&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#636363;&quot;&gt;Donate&lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://facebook.com/keshav.bhatt.393&quot;&gt;&lt;span style=&quot; font-weight:600; color:#636363;&quot;/&gt;&lt;/a&gt; &amp;nbsp; &lt;a href=&quot;http://armybharti.in/me&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#636363;&quot;&gt;Website&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="openExternalLinks">
           <bool>true</bool>
          </property>
         </widget>
