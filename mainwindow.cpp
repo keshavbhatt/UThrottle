@@ -57,23 +57,21 @@ MainWindow::~MainWindow()
 //quit app with action
 void MainWindow::on_actionQuit_triggered()
 {
-   stopThrottler();
-   stopthrottler->waitForFinished();//wait otherwise stopThrottler will not open gksudo
+    stopThrottler();
+    stopthrottler->waitForFinished();//wait otherwise stopThrottler will not open gksudo
 
-   QString quitout;
-   quitout= stopthrottler->readAll();
-   if(quitout.count()==0){
-    qDebug()<<"Please Enter sudo password to Stop Throttling" <<ui->interfaceCombo->currentText()<< "and Quit App.";
-   }
-   else{
-     qDebug()<<"Throttling on Selected Interface Stopped ! , while other interfaces may be throttled by Uthrottle in background.";
-     throttler->kill();
-     stopthrottler->kill();
-     status->kill();
-     qApp->quit();
-   }
-
-
+    QString quitout;
+    quitout= stopthrottler->readAll();
+    if(quitout.count()==0){
+        qDebug()<<"Please Enter sudo password to Stop Throttling" <<ui->interfaceCombo->currentText()<< "and Quit App.";
+    }
+    else{
+        qDebug()<<"Throttling on Selected Interface Stopped ! , while other interfaces may be throttled by Uthrottle in background.";
+//        throttler->kill();
+//        stopthrottler->kill();
+//        status->kill();
+        qApp->quit();
+    }
 }
 
 //about action/dialog
@@ -155,7 +153,7 @@ QString MainWindow::inputstring() {
 
 //to change the data according to selected item/preset in treeWidget
 void MainWindow::on_treeWidget_clicked(const QModelIndex &index)
-{
+{ //we can use index in each below but fuck it
     ui->interfaceTitle->setText(inputstring());
     if(ui->interfaceTitle->text()=="25K"){
        ui->downloadlimit->setReadOnly(true);
@@ -251,7 +249,7 @@ void MainWindow::enabledisableButtons(){
     //when preset is selected and one of checkbox is checked
     else if(((ui->interfaceTitle->text().count()>0) &&((ui->limitDownloadCheckBox->checkState()==Qt::Checked)||(ui->limitUploadCheckBox->checkState()==Qt::Checked)))&&((ui->downloadlimit->text().count()>0)||(ui->uploadlimit->text().count()>0))) {
         //enable buttons
-        ui->startThrottleBtn->setEnabled(true); // qDebug()<<"da,m";
+        ui->startThrottleBtn->setEnabled(true);
 
     }
     //when both the checkbox are unchecked
@@ -454,17 +452,17 @@ void MainWindow::createTrayIcon()
 //  initialize tray
     trayIcon = new QSystemTrayIcon(this);
     trayIcon->setContextMenu(trayIconMenu);
-    trayIcon->setIcon(QIcon(":/icons/tray.svg"));
+    trayIcon->setIcon(QIcon(":/icons/tray.svg")); //only svg working
 }
 //End tray shits
 
 
-//check the status of throttling when interface changed
+//check the status of throttling when interface changed (live update)
 void MainWindow::on_interfaceCombo_currentIndexChanged(int index)
 {
     on_check();
 }
-
+//show hide terminal
 void MainWindow::on_showterminal_clicked(bool checked)
 {
 if(checked){ui->terminalFrame->show();}
@@ -473,6 +471,7 @@ else if(!checked){ui->terminalFrame->hide();}
 //runinbackground
 void MainWindow::on_actionRuninBackground_triggered()
 {
+    qDebug()<<"Uthrottle don't take a single bite of RAM when running in background. Happy Throttling !";
     qApp->quit();
 }
 
