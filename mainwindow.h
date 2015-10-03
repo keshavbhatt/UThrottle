@@ -1,3 +1,16 @@
+/*
+*This file is part of UThrottle.
+*
+*UThrottle is not a free software: you can't redistribute it nor modify
+*it without the author <keshavnrj@gmail.com> Keshav Bhatt.
+*
+*UThrottle is distributed in the hope that it will be useful,
+*but WITHOUT ANY WARRANTY; without even the implied warranty of
+*MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*
+*Debian distro dependencies - wondershaper .
+*/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -24,16 +37,19 @@ public:
     void setVisible(bool visible);
     QString inputstring();
 
+    void on_checkbox_action_triggered_from_downloadCheckbox();
+    void on_checkbox_action_triggered_from_uplinkCheckbox();
+
+
 private slots:
     void on_actionQuit_triggered();
     void on_actionAbout_triggered();
     void refreshinterfaceCombo();
     void populateCombo();
 
-
     void on_refreshInterfaceBtn_clicked();
 
-    void on_treeWidget_clicked(const QModelIndex &index);
+    void on_treeWidget_clicked();
 
     void enabledisableButtons();
 
@@ -53,18 +69,24 @@ private slots:
 
     void disableGUI();
 
+    void on_check();
+
     void startThrottler();
     void stopThrottler();
    // void printOutput();
     void printOutputInTerminal1();
-
-    void on_check();
 
     void on_interfaceCombo_currentIndexChanged(int index);
 
     void on_showterminal_clicked(bool checked);
 
     void on_actionRuninBackground_triggered();
+
+    void check_throttling_interface(); //test
+    void printthestatus();//test
+    void finished_check_change_index(); //test
+
+    void on_pushButton_clicked();
 
 
 

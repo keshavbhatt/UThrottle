@@ -1,3 +1,13 @@
+/*
+*This file is part of UThrottle.
+*
+*UThrottle is not a free software: you can't redistribute it nor modify
+*it without the author <keshavnrj@gmail.com> Keshav Bhatt.
+*
+*UThrottle is distributed in the hope that it will be useful,
+*but WITHOUT ANY WARRANTY; without even the implied warranty of
+*MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "aboutdialog.h"
@@ -30,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //    setMaximumHeight(520);
 //    setMinimumWidth(540);
 //    setMinimumHeight(520);
+    //hiding the fake combo used to get log
+    ui->interfaceCombo2->hide();
     this->move(QApplication::desktop()->screen()->rect().center() - this->rect().center()); // moving to center of desktop
     //create tray icon
     createActions();
@@ -130,6 +142,7 @@ void MainWindow::populateCombo() // we will poulate interfaceCombo when this slo
       }
     }
     ui->interfaceCombo->setModel(model2); //setting model of qcombobox
+    ui->interfaceCombo2->setModel(model2);  // dummy combbox to check logs
     file.close();
 }
 
@@ -152,73 +165,224 @@ QString MainWindow::inputstring() {
 }
 
 //to change the data according to selected item/preset in treeWidget
-void MainWindow::on_treeWidget_clicked(const QModelIndex &index)
+void MainWindow::on_treeWidget_clicked(/*const QModelIndex &index*/)
 { //we can use index in each below but fuck it
     ui->interfaceTitle->setText(inputstring());
+
     if(ui->interfaceTitle->text()=="25K"){
        ui->downloadlimit->setReadOnly(true);
        ui->uploadlimit->setReadOnly(true);
        ui->downloadlimit->setText("25");
        ui->uploadlimit->setText("25");
+       ui->limitDownloadCheckBox->setChecked(true);
+       ui->limitUploadCheckBox->setChecked(true);
         }
     else if(ui->interfaceTitle->text()=="56K"){
         ui->downloadlimit->setReadOnly(true);
         ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("56");
         ui->uploadlimit->setText("56");
+        ui->limitDownloadCheckBox->setChecked(true);
+        ui->limitUploadCheckBox->setChecked(true);
     }
     else if(ui->interfaceTitle->text()=="80K"){
         ui->downloadlimit->setReadOnly(true);
         ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("80");
         ui->uploadlimit->setText("80");
+        ui->limitDownloadCheckBox->setChecked(true);
+        ui->limitUploadCheckBox->setChecked(true);
     }
     else if(ui->interfaceTitle->text()=="100K"){
         ui->downloadlimit->setReadOnly(true);
         ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("100");
         ui->uploadlimit->setText("100");
+        ui->limitDownloadCheckBox->setChecked(true);
+        ui->limitUploadCheckBox->setChecked(true);
     }
     else if(ui->interfaceTitle->text()=="120K"){
         ui->downloadlimit->setReadOnly(true);
         ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("120");
         ui->uploadlimit->setText("120");
+        ui->limitDownloadCheckBox->setChecked(true);
+        ui->limitUploadCheckBox->setChecked(true);
     }
     else if(ui->interfaceTitle->text()=="150K"){
         ui->downloadlimit->setReadOnly(true);
         ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("150");
         ui->uploadlimit->setText("150");
+        ui->limitDownloadCheckBox->setChecked(true);
+        ui->limitUploadCheckBox->setChecked(true);
     }
     else if(ui->interfaceTitle->text()=="200K"){
         ui->downloadlimit->setReadOnly(true);
         ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("200");
         ui->uploadlimit->setText("200");
+        ui->limitDownloadCheckBox->setChecked(true);
+        ui->limitUploadCheckBox->setChecked(true);
     }
     else if(ui->interfaceTitle->text()=="Edge"){
         ui->downloadlimit->setReadOnly(true);
         ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("250");
         ui->uploadlimit->setText("250");
+        ui->limitDownloadCheckBox->setChecked(true);
+        ui->limitUploadCheckBox->setChecked(true);
     }
     else if(ui->interfaceTitle->text()=="3G"){
         ui->downloadlimit->setReadOnly(true);
         ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("750");
         ui->uploadlimit->setText("750");
+        ui->limitDownloadCheckBox->setChecked(true);
+        ui->limitUploadCheckBox->setChecked(true);
     }
     else if(ui->interfaceTitle->text()=="LTE / 4G"){
         ui->downloadlimit->setReadOnly(true);
         ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("1024");
         ui->uploadlimit->setText("1024");
+        ui->limitDownloadCheckBox->setChecked(true);
+        ui->limitUploadCheckBox->setChecked(true);
     }
     else if(ui->interfaceTitle->text()=="DSL"){
         ui->downloadlimit->setReadOnly(true);
         ui->uploadlimit->setReadOnly(true);
         ui->downloadlimit->setText("2024");
+        ui->uploadlimit->setText("2024");
+        ui->limitDownloadCheckBox->setChecked(true);
+        ui->limitUploadCheckBox->setChecked(true);
+    }
+    else if(ui->interfaceTitle->text()=="Custom"){
+        //seting int validiator
+        ui->downloadlimit->setValidator( new QIntValidator(0, 1000000, this) );
+        ui->uploadlimit->setValidator( new QIntValidator(0, 1000000, this) );
+        //readonly false allow user input custom values
+        ui->downloadlimit->setReadOnly(false);
+        ui->uploadlimit->setReadOnly(false);
+        //setting value to blank
+        ui->downloadlimit->setText("");
+        ui->uploadlimit->setText("");
+        ui->limitDownloadCheckBox->setChecked(true);
+        ui->limitUploadCheckBox->setChecked(true);
+    }
+    //enable or disable buttons descision
+    enabledisableButtons();
+
+}
+
+//START this is deep shit
+//START this is deep shit
+void MainWindow::on_checkbox_action_triggered_from_downloadCheckbox(/*const QModelIndex &index*/)
+{ //we can use index in each below but fuck it
+    ui->interfaceTitle->setText(inputstring());
+
+    if(ui->interfaceTitle->text()=="25K"){
+       ui->downloadlimit->setReadOnly(true);
+       ui->downloadlimit->setText("25");
+        }
+    else if(ui->interfaceTitle->text()=="56K"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("56");
+    }
+    else if(ui->interfaceTitle->text()=="80K"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("80");
+    }
+    else if(ui->interfaceTitle->text()=="100K"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("100");
+    }
+    else if(ui->interfaceTitle->text()=="120K"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("120");
+    }
+    else if(ui->interfaceTitle->text()=="150K"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("150");
+    }
+    else if(ui->interfaceTitle->text()=="200K"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("200");
+    }
+    else if(ui->interfaceTitle->text()=="Edge"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("250");
+    }
+    else if(ui->interfaceTitle->text()=="3G"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("750");
+    }
+    else if(ui->interfaceTitle->text()=="LTE / 4G"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("1024");
+    }
+    else if(ui->interfaceTitle->text()=="DSL"){
+        ui->downloadlimit->setReadOnly(true);
+        ui->downloadlimit->setText("2024");
+    }
+    else if(ui->interfaceTitle->text()=="Custom"){
+        //seting int validiator
+        ui->downloadlimit->setValidator( new QIntValidator(0, 1000000, this) );
+        ui->uploadlimit->setValidator( new QIntValidator(0, 1000000, this) );
+        //readonly false allow user input custom values
+        ui->downloadlimit->setReadOnly(false);
+        ui->uploadlimit->setReadOnly(false);
+        //setting value to blank
+        ui->downloadlimit->setText("");
+        ui->uploadlimit->setText("");
+    }
+}
+void MainWindow::on_checkbox_action_triggered_from_uplinkCheckbox(/*const QModelIndex &index*/)
+{ //we can use index in each below but fuck it
+    ui->interfaceTitle->setText(inputstring());
+
+    if(ui->interfaceTitle->text()=="25K"){
+       ui->uploadlimit->setReadOnly(true);
+       ui->uploadlimit->setText("25");
+        }
+    else if(ui->interfaceTitle->text()=="56K"){
+       ui->uploadlimit->setReadOnly(true);
+       ui->uploadlimit->setText("56");
+    }
+    else if(ui->interfaceTitle->text()=="80K"){
+        ui->uploadlimit->setReadOnly(true);
+        ui->uploadlimit->setText("80");
+    }
+    else if(ui->interfaceTitle->text()=="100K"){
+        ui->uploadlimit->setReadOnly(true);
+        ui->uploadlimit->setText("100");
+    }
+    else if(ui->interfaceTitle->text()=="120K"){
+        ui->uploadlimit->setReadOnly(true);
+        ui->uploadlimit->setText("120");
+    }
+    else if(ui->interfaceTitle->text()=="150K"){
+        ui->uploadlimit->setReadOnly(true);
+        ui->uploadlimit->setText("150");
+    }
+    else if(ui->interfaceTitle->text()=="200K"){
+        ui->uploadlimit->setReadOnly(true);
+        ui->uploadlimit->setText("200");
+    }
+    else if(ui->interfaceTitle->text()=="Edge"){
+        ui->uploadlimit->setReadOnly(true);
+        ui->uploadlimit->setText("250");
+    }
+    else if(ui->interfaceTitle->text()=="3G"){
+        ui->uploadlimit->setReadOnly(true);
+        ui->uploadlimit->setText("750");
+    }
+    else if(ui->interfaceTitle->text()=="LTE / 4G"){
+        ui->uploadlimit->setReadOnly(true);
+        ui->uploadlimit->setText("1024");
+    }
+    else if(ui->interfaceTitle->text()=="DSL"){
+        ui->uploadlimit->setReadOnly(true);
         ui->uploadlimit->setText("2024");
     }
     else if(ui->interfaceTitle->text()=="Custom"){
@@ -232,10 +396,9 @@ void MainWindow::on_treeWidget_clicked(const QModelIndex &index)
         ui->downloadlimit->setText("");
         ui->uploadlimit->setText("");
     }
-    //enable or disable buttons descision
-    enabledisableButtons();
-
 }
+//END this is deep shit
+//END this is deep shit
 
 //to enable/disble buttons
 void MainWindow::enabledisableButtons(){
@@ -259,21 +422,31 @@ void MainWindow::enabledisableButtons(){
 
     }
 
+
 }
 
 //when checkbox states changed-----------------------------------/* */
 void MainWindow::on_limitDownloadCheckBox_stateChanged(int arg1) /* */
 {                                                                /* */
-    if(arg1==2){ui->downlinkFrame->setEnabled(true);}            /* */
-    else if(arg1==0){ui->downlinkFrame->setEnabled(false);}      /* */
+    if(arg1==2){ui->downlinkFrame->setEnabled(true);             /* */
+        on_checkbox_action_triggered_from_downloadCheckbox();    /* */
+    }                                                            /* */
+    else if(arg1==0){                                            /* */
+        ui->downloadlimit->setText("999999999");                 /* */
+        ui->downlinkFrame->setEnabled(false);                    /* */
+    }                                                            /* */
     enabledisableButtons();                                      /* */
                                                                  /* */
 }                                                                /* */
                                                                  /* */
 void MainWindow::on_limitUploadCheckBox_stateChanged(int arg1)   /* */
 {                                                                /* */
-    if(arg1==2){ui->uplinkFrame->setEnabled(true);}              /* */
-    else if(arg1==0){ui->uplinkFrame->setEnabled(false);}        /* */
+    if(arg1==2){ui->uplinkFrame->setEnabled(true);               /* */
+        on_checkbox_action_triggered_from_uplinkCheckbox();      /* */
+    }                                                            /* */
+    else if(arg1==0){                                            /* */
+        ui->uploadlimit->setText("999999999");                   /* */
+        ui->uplinkFrame->setEnabled(false);}                     /* */
     enabledisableButtons();                                      /* */
                                                                  /* */
 }                                                                /* */
@@ -283,6 +456,18 @@ void MainWindow::on_limitUploadCheckBox_stateChanged(int arg1)   /* */
 // Start/Stop clicked
 void MainWindow::on_startThrottleBtn_clicked()
 {
+ //    checks if none of the value passed are empty to throttler , it breaks the execution of engine if the value passed is blank and pops a message in terminal1 to input the blank values or uncheck the checkbox.
+    if((ui->limitDownloadCheckBox->isChecked() || ui->limitUploadCheckBox->isChecked()) && (ui->downloadlimit->text().count()<1 || ui->uploadlimit->text().count()<1)){
+            ui->terminal1->clear();
+
+QString damn ;
+            if(ui->downloadlimit->text().count()<1){
+                damn ="Download limit section" ;}
+            else if(ui->uploadlimit->text().count()<1){damn="Upload limit section";}
+            ui->terminal1->appendPlainText("Please set limit or uncheck the checkbox to start throttling .\nThrottling not started (Required values not passed by "+ damn + ").");
+
+        }
+    else
     //start app engine
     startThrottler();
 
@@ -353,7 +538,7 @@ void MainWindow::stopThrottler(){
 
 }
 
-//check button cliked -//TODO check every interface one by one and print which is being throttled
+//check button clicked
 void MainWindow::on_check()
 {
 QString mainprog = "wondershaper";
@@ -362,6 +547,7 @@ arguments << ui->interfaceCombo->currentText();
 status = new QProcess(this);
 status->start(mainprog, arguments);
 QObject::connect(status ,SIGNAL(readyReadStandardOutput()),this,SLOT(printOutputInTerminal1()));
+enabledisableButtons();
 }
 
 
@@ -426,7 +612,7 @@ void MainWindow::createActions()
     minimizeAction = new QAction(tr("Mi&nimize to tray"), this);
     connect(minimizeAction, SIGNAL(triggered()), this, SLOT(hide()));
 
-//    maximizeAction = new QAction(tr("Ma&ximize"), this);
+//    maximizeAction = new QAction(tr("Maximize"), this);
 //    connect(maximizeAction, SIGNAL(triggered()), this, SLOT(showMaximized()));
 
     runinbackground = new QAction(tr("Run in background"),this);
@@ -471,8 +657,65 @@ else if(!checked){ui->terminalFrame->hide();}
 //runinbackground
 void MainWindow::on_actionRuninBackground_triggered()
 {
-    qDebug()<<"Uthrottle don't take a single bite of RAM when running in background. Happy Throttling !";
+    qDebug()<<"Uthrottle don't take a single bit of RAM when running in background. Happy Throttling !";
     qApp->quit();
 }
+
+
+//TODO get the list of interfaces which throttler is throttling
+//done but buggy right now
+void MainWindow::check_throttling_interface(){
+
+    QString mainprog = "wondershaper";
+    QStringList arguments;
+    arguments << ui->interfaceCombo2->currentText();
+    status = new QProcess(this);
+    status->start(mainprog, arguments);
+    //QObject::connect(status ,SIGNAL(readyReadStandardOutput()),this,SLOT(printOutputInTerminal1()));
+    QObject::connect(status ,SIGNAL(readyReadStandardOutput()),this,SLOT(printthestatus()));
+    QObject::connect(status ,SIGNAL(finished(int)),this,SLOT(finished_check_change_index()));
+
+
+}
+//change the interfaces
+void MainWindow::printthestatus(){
+
+    QString quitout;
+    quitout= status->readAll();
+
+    if(quitout.contains("avgidle")){ ui->terminal1->appendPlainText("Throttling "+ui->interfaceCombo2->currentText()); }
+
+   // finished_check_change_index();
+}
+
+void MainWindow::finished_check_change_index(){
+    int total_interface;
+    total_interface = ui->interfaceCombo2->count();
+    int currentIndx;
+    currentIndx = ui->interfaceCombo2->currentIndex();
+
+
+
+    while (currentIndx < total_interface && currentIndx != -1) {
+        ui->interfaceCombo2->setCurrentIndex(++currentIndx);
+        check_throttling_interface();
+       // printthestatus();
+        qDebug()<<total_interface << currentIndx;
+ break;
+    }
+
+
+
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    ui->terminal1->clear();
+    ui->interfaceCombo2->setCurrentIndex(0);
+    check_throttling_interface();
+
+}
+
+
 
 
